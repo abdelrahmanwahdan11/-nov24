@@ -55,9 +55,19 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
             ListTile(
+              leading: const Icon(Icons.monitor_heart_outlined),
+              title: Text(loc.t('wellness_dashboard')),
+              onTap: () => Navigator.pushNamed(context, AppRouter.wellnessDashboard),
+            ),
+            ListTile(
               leading: const Icon(Icons.card_giftcard_outlined),
               title: Text(loc.t('rewards')),
               onTap: () => Navigator.pushNamed(context, AppRouter.rewards),
+            ),
+            ListTile(
+              leading: const Icon(Icons.confirmation_number_outlined),
+              title: Text(loc.t('coupon_center')),
+              onTap: () => Navigator.pushNamed(context, AppRouter.couponCenter),
             ),
             ListTile(
               leading: const Icon(Icons.menu_book_outlined),

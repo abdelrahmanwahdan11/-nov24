@@ -101,6 +101,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () => Navigator.pushNamed(context, AppRouter.referrals),
                       ),
                       _WellnessCard(
+                        title: loc.t('coupon_center'),
+                        icon: Icons.confirmation_number_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.couponCenter),
+                      ),
+                      _WellnessCard(
                         title: loc.t('subscriptions'),
                         icon: Icons.autorenew_outlined,
                         onTap: () => Navigator.pushNamed(context, AppRouter.subscriptions),
@@ -114,6 +119,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         title: loc.t('challenges'),
                         icon: Icons.auto_awesome_motion_outlined,
                         onTap: () => Navigator.pushNamed(context, AppRouter.challenges),
+                      ),
+                      _WellnessCard(
+                        title: loc.t('wellness_dashboard'),
+                        icon: Icons.monitor_heart_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.wellnessDashboard),
                       ),
                     ],
                   ),

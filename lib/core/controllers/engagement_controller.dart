@@ -20,6 +20,9 @@ class EngagementController {
   final ValueNotifier<List<Address>> addresses =
       ValueNotifier(List.from(mockAddresses));
   final ValueNotifier<int> rewardPoints = ValueNotifier(640);
+  final ValueNotifier<int> routineStreak = ValueNotifier(5);
+  final ValueNotifier<int> completedRoutines = ValueNotifier(14);
+  final ValueNotifier<int> sharedReferrals = ValueNotifier(3);
   final ValueNotifier<String> referralCode = ValueNotifier('GLOW15');
   final ValueNotifier<List<Coupon>> coupons =
       ValueNotifier(List.from(mockCoupons));
@@ -155,6 +158,25 @@ class EngagementController {
         .toList();
   }
 
+  void toggleCoupon(String code) {
+    final normalized = code.trim().toUpperCase();
+    coupons.value = coupons.value
+        .map((c) => c.code.toUpperCase() == normalized
+            ? c.copyWith(isApplied: !c.isApplied)
+            : c)
+        .toList();
+  }
+
+  void completeRoutine() {
+    completedRoutines.value = completedRoutines.value + 1;
+    routineStreak.value = routineStreak.value + 1;
+    rewardPoints.value = rewardPoints.value + 10;
+  }
+
+  void resetStreak() {
+    routineStreak.value = 0;
+  }
+
   void toggleSubscriptionPause(String id) {
     subscriptions.value = subscriptions.value.map((plan) {
       if (plan.id != id) return plan;
@@ -230,6 +252,9 @@ class EngagementController {
     notifications.dispose();
     addresses.dispose();
     rewardPoints.dispose();
+    routineStreak.dispose();
+    completedRoutines.dispose();
+    sharedReferrals.dispose();
     quizResult.dispose();
     diaryEntries.dispose();
     nextConsultation.dispose();
