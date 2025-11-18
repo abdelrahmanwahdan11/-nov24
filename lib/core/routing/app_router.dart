@@ -14,7 +14,13 @@ import '../../features/profile/address_book_screen.dart';
 import '../../features/profile/skin_quiz_screen.dart';
 import '../../features/profile/routine_planner_screen.dart';
 import '../../features/profile/order_details_screen.dart';
+import '../../features/profile/glow_journal_screen.dart';
+import '../../features/profile/article_detail_screen.dart';
+import '../../features/profile/skin_diary_screen.dart';
+import '../../features/profile/consultation_screen.dart';
+import '../../features/search/search_overlay.dart';
 import '../models/order.dart';
+import '../models/article.dart';
 
 class AppRouter {
   static const splash = '/';
@@ -32,6 +38,11 @@ class AppRouter {
   static const quiz = '/quiz';
   static const routine = '/routine';
   static const orderDetails = '/order-details';
+  static const journal = '/journal';
+  static const articleDetails = '/article';
+  static const diary = '/diary';
+  static const consultation = '/consultation';
+  static const search = '/search';
 
   static Route<dynamic>? onGenerate(RouteSettings settings) {
     switch (settings.name) {
@@ -69,6 +80,18 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => OrderDetailsScreen(order: settings.arguments as Order),
         );
+      case journal:
+        return MaterialPageRoute(builder: (_) => const GlowJournalScreen());
+      case articleDetails:
+        return MaterialPageRoute(
+          builder: (_) => ArticleDetailScreen(article: settings.arguments as Article),
+        );
+      case diary:
+        return MaterialPageRoute(builder: (_) => const SkinDiaryScreen());
+      case consultation:
+        return MaterialPageRoute(builder: (_) => const ConsultationScreen());
+      case search:
+        return MaterialPageRoute(builder: (_) => const SearchOverlay());
       default:
         return null;
     }

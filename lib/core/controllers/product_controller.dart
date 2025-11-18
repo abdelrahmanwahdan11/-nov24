@@ -15,7 +15,13 @@ class ProductController {
   int _page = 0;
   final int _pageSize = 6;
   final List<Product> _catalogBuffer = [];
+  List<Product> _catalogSource = List.from(mockProducts);
   final List<Product> _comparison = [];
+  double? _minPrice;
+  double? _maxPrice;
+  List<String> _selectedCategories = [];
+  bool _hasMore = true;
+  bool _isPaginating = false;
 
   Stream<List<Product>> get homeBestProductsStream => _homeBestController.stream;
   Stream<List<Product>> get homeRecommendedStream =>
@@ -40,19 +46,49 @@ class ProductController {
   Future<void> refreshCatalog() async {
     _catalogBuffer.clear();
     _page = 0;
-    await loadCatalogPage(0);
+    _hasMore = true;
+    _catalogSource = _applyCurrentFilters();
+    await loadNextCatalogPage(reset: true);
   }
 
-  Future<void> loadCatalogPage(int pageIndex) async {
-    if (pageIndex != _page && pageIndex != 0) return;
+  Future<void> loadNextCatalogPage({bool reset = false}) async {
+    if (_isPaginating || !_hasMore) return;
+    _isPaginating = true;
     _paginatingController.add(true);
     await Future.delayed(const Duration(milliseconds: 400));
+    if (reset) {
+      _catalogBuffer.clear();
+      _page = 0;
+    }
     final start = _page * _pageSize;
-    final next = mockProducts.skip(start).take(_pageSize).toList();
+    final next = _catalogSource.skip(start).take(_pageSize).toList();
     _catalogBuffer.addAll(next);
     _catalogController.add(List.from(_catalogBuffer));
     _page++;
+    if (next.length < _pageSize || _catalogBuffer.length >= _catalogSource.length) {
+      _hasMore = false;
+    }
     _paginatingController.add(false);
+    _isPaginating = false;
+  }
+
+  void applyFilters({double? minPrice, double? maxPrice, List<String>? categories}) {
+    _minPrice = minPrice;
+    _maxPrice = maxPrice;
+    _selectedCategories = categories ?? [];
+    _catalogSource = _applyCurrentFilters();
+    _hasMore = true;
+    loadNextCatalogPage(reset: true);
+  }
+
+  List<Product> _applyCurrentFilters() {
+    return mockProducts.where((product) {
+      final matchesPrice = (_minPrice == null || product.price >= _minPrice!) &&
+          (_maxPrice == null || product.price <= _maxPrice!);
+      final matchesCategory = _selectedCategories.isEmpty ||
+          _selectedCategories.contains(product.category);
+      return matchesPrice && matchesCategory;
+    }).toList();
   }
 
   void toggleFavorite(Product product) {

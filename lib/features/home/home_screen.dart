@@ -10,6 +10,7 @@ import '../../core/widgets/app_skeleton.dart';
 import '../../core/widgets/product_3d_card.dart';
 import '../../core/widgets/search_bar.dart';
 import '../../core/routing/app_router.dart';
+import '../../core/data/mock_articles.dart';
 
 class HomeScreen extends StatefulWidget {
   final ProductController controller;
@@ -32,7 +33,12 @@ class _HomeScreenState extends State<HomeScreen> {
           SliverAppBar(
             floating: true,
             title: Text(loc.t('home')),
-            actions: [IconButton(onPressed: () => Navigator.pushNamed(context, AppRouter.compare), icon: const Icon(Icons.balance))],
+            actions: [
+              IconButton(
+                  onPressed: () => Navigator.pushNamed(context, AppRouter.search),
+                  icon: const Icon(Icons.search)),
+              IconButton(onPressed: () => Navigator.pushNamed(context, AppRouter.compare), icon: const Icon(Icons.balance))
+            ],
           ),
           SliverToBoxAdapter(
             child: Padding(
@@ -40,34 +46,43 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  AppSearchBar(onTap: () => Navigator.pushNamed(context, AppRouter.compare)),
+                  AppSearchBar(onTap: () => Navigator.pushNamed(context, AppRouter.search)),
                   const SizedBox(height: 12),
                   SectionHeader(title: loc.t('wellness_hub')),
                   const SizedBox(height: 8),
-                  Row(
+                  Wrap(
+                    spacing: 12,
+                    runSpacing: 12,
                     children: [
-                      Expanded(
-                        child: _WellnessCard(
-                          title: loc.t('take_quiz'),
-                          icon: Icons.quiz_outlined,
-                          onTap: () => Navigator.pushNamed(context, AppRouter.quiz),
-                        ),
+                      _WellnessCard(
+                        title: loc.t('take_quiz'),
+                        icon: Icons.quiz_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.quiz),
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: _WellnessCard(
-                          title: loc.t('plan_routine'),
-                          icon: Icons.event_repeat_rounded,
-                          onTap: () => Navigator.pushNamed(context, AppRouter.routine),
-                        ),
+                      _WellnessCard(
+                        title: loc.t('plan_routine'),
+                        icon: Icons.event_repeat_rounded,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.routine),
                       ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: _WellnessCard(
-                          title: loc.t('track_rewards'),
-                          icon: Icons.card_giftcard_outlined,
-                          onTap: () => Navigator.pushNamed(context, AppRouter.rewards),
-                        ),
+                      _WellnessCard(
+                        title: loc.t('track_rewards'),
+                        icon: Icons.card_giftcard_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.rewards),
+                      ),
+                      _WellnessCard(
+                        title: loc.t('skin_diary'),
+                        icon: Icons.edit_note_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.diary),
+                      ),
+                      _WellnessCard(
+                        title: loc.t('book_consultation'),
+                        icon: Icons.video_call_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.consultation),
+                      ),
+                      _WellnessCard(
+                        title: loc.t('glow_journal'),
+                        icon: Icons.menu_book_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.journal),
                       ),
                     ],
                   ),
@@ -98,6 +113,28 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Product3DCard(product: product),
                             );
                           },
+                        );
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  SectionHeader(title: loc.t('glow_journal')),
+                  const SizedBox(height: 8),
+                  SizedBox(
+                    height: 140,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: mockArticles.length,
+                      separatorBuilder: (_, __) => const SizedBox(width: 12),
+                      itemBuilder: (_, index) {
+                        final article = mockArticles[index];
+                        return SizedBox(
+                          width: 220,
+                          child: _WellnessCard(
+                            title: article.localizedTitle(Localizations.localeOf(context).languageCode),
+                            icon: Icons.menu_book_outlined,
+                            onTap: () => Navigator.pushNamed(context, AppRouter.articleDetails, arguments: article),
+                          ),
                         );
                       },
                     ),

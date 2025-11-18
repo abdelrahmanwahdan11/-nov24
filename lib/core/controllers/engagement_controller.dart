@@ -5,6 +5,7 @@ import '../models/address.dart';
 import '../models/app_notification.dart';
 import '../models/routine_step.dart';
 import '../models/skin_quiz_question.dart';
+import '../models/skin_diary_entry.dart';
 
 class EngagementController {
   final ValueNotifier<List<AppNotification>> notifications =
@@ -13,6 +14,18 @@ class EngagementController {
       ValueNotifier(List.from(mockAddresses));
   final ValueNotifier<int> rewardPoints = ValueNotifier(640);
   final ValueNotifier<List<String>> quizResult = ValueNotifier(const []);
+  final ValueNotifier<List<SkinDiaryEntry>> diaryEntries = ValueNotifier([
+    SkinDiaryEntry(
+      date: DateTime.now().subtract(const Duration(days: 1)),
+      mood: 'Calm',
+      note: 'Tried the rose serum and woke up hydrated.',
+    ),
+  ]);
+  final ValueNotifier<DateTime?> nextConsultation = ValueNotifier(null);
+  final List<DateTime> availableConsultations = List.generate(
+    6,
+    (index) => DateTime.now().add(Duration(days: index + 1, hours: 10 + index)),
+  );
 
   List<RoutineStep> get morningRoutine => const [
         RoutineStep(
@@ -101,6 +114,15 @@ class EngagementController {
     quizResult.value = answers;
   }
 
+  void addDiaryEntry(String mood, String note) {
+    final entry = SkinDiaryEntry(date: DateTime.now(), mood: mood, note: note);
+    diaryEntries.value = [entry, ...diaryEntries.value];
+  }
+
+  void bookConsultation(DateTime slot) {
+    nextConsultation.value = slot;
+  }
+
   String deriveQuizSummary() {
     if (quizResult.value.isEmpty) return 'balanced';
     final hasOil = quizResult.value.any((e) => e.contains('Oily'));
@@ -116,5 +138,7 @@ class EngagementController {
     addresses.dispose();
     rewardPoints.dispose();
     quizResult.dispose();
+    diaryEntries.dispose();
+    nextConsultation.dispose();
   }
 }
