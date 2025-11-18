@@ -7,6 +7,10 @@ class CartController {
   final _cartStream = StreamController<List<CartItem>>.broadcast();
   final _summaryStream = StreamController<CartSummary>.broadcast();
 
+  CartController() {
+    _emit();
+  }
+
   Stream<List<CartItem>> get cartItemsStream => _cartStream.stream;
   Stream<CartSummary> get cartSummaryStream => _summaryStream.stream;
 

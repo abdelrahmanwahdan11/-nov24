@@ -7,6 +7,7 @@ import '../../features/root_shell/root_shell.dart';
 import '../../features/splash/splash_screen.dart';
 import '../../features/product_details/product_details_screen.dart';
 import '../../features/comparison/comparison_screen.dart';
+import '../../features/cart/checkout_screen.dart';
 import '../../features/profile/rewards_screen.dart';
 import '../../features/profile/notifications_screen.dart';
 import '../../features/profile/address_book_screen.dart';
@@ -24,6 +25,7 @@ class AppRouter {
   static const root = '/root';
   static const productDetails = '/product';
   static const compare = '/compare';
+  static const checkout = '/checkout';
   static const rewards = '/rewards';
   static const notifications = '/notifications';
   static const addresses = '/addresses';
@@ -51,6 +53,8 @@ class AppRouter {
         );
       case compare:
         return MaterialPageRoute(builder: (_) => const ComparisonScreen());
+      case checkout:
+        return MaterialPageRoute(builder: (_) => const CheckoutScreen());
       case rewards:
         return MaterialPageRoute(builder: (_) => const RewardsScreen());
       case notifications:
