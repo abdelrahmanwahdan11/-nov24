@@ -70,6 +70,11 @@ class ProfileScreen extends StatelessWidget {
               onTap: () => Navigator.pushNamed(context, AppRouter.couponCenter),
             ),
             ListTile(
+              leading: const Icon(Icons.savings_outlined),
+              title: Text(loc.t('budget_planner')),
+              onTap: () => Navigator.pushNamed(context, AppRouter.budgetPlanner),
+            ),
+            ListTile(
               leading: const Icon(Icons.forum_outlined),
               title: Text(loc.t('coach_qna')),
               onTap: () => Navigator.pushNamed(context, AppRouter.coachQna),
@@ -144,6 +149,11 @@ class ProfileScreen extends StatelessWidget {
               leading: const Icon(Icons.health_and_safety_outlined),
               title: Text(loc.t('patch_test')),
               onTap: () => Navigator.pushNamed(context, AppRouter.patchTest),
+            ),
+            ListTile(
+              leading: const Icon(Icons.medical_services_outlined),
+              title: Text(loc.t('sos_playbook')),
+              onTap: () => Navigator.pushNamed(context, AppRouter.sosPlaybook),
             ),
             ListTile(
               leading: const Icon(Icons.inventory_2_outlined),

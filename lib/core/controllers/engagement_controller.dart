@@ -4,6 +4,7 @@ import '../data/mock_challenges.dart';
 import '../data/mock_coupons.dart';
 import '../data/mock_notifications.dart';
 import '../data/mock_subscriptions.dart';
+import '../data/mock_budget.dart';
 import '../data/mock_ingredients.dart';
 import '../models/ingredient.dart';
 import '../models/address.dart';
@@ -20,6 +21,8 @@ import '../models/wellness_plan.dart';
 import '../models/skin_metric.dart';
 import '../models/tracking_event.dart';
 import '../models/travel_kit_item.dart';
+import '../models/budget_entry.dart';
+import '../models/shelf_product.dart';
 
 class EngagementController {
   final ValueNotifier<List<AppNotification>> notifications =
@@ -37,6 +40,10 @@ class EngagementController {
       ValueNotifier(List.from(mockSubscriptions));
   final ValueNotifier<List<WellnessChallenge>> challenges =
       ValueNotifier(List.from(mockChallenges));
+  final ValueNotifier<List<BudgetEntry>> budgetEntries =
+      ValueNotifier(List.from(mockBudgetEntries));
+  final ValueNotifier<double> monthlyBudget = ValueNotifier(140);
+  final ValueNotifier<double> savingsTarget = ValueNotifier(35);
   final ValueNotifier<List<CoachQna>> coachQna = ValueNotifier([
     CoachQna(
       id: 'q1',
@@ -456,6 +463,25 @@ class EngagementController {
       createdAt: DateTime.now(),
     );
     coachQna.value = [entry, ...coachQna.value];
+  }
+
+  void addBudgetEntry(BudgetEntry entry) {
+    budgetEntries.value = [...budgetEntries.value, entry];
+  }
+
+  void toggleBudgetEntryPaid(String id) {
+    budgetEntries.value = budgetEntries.value
+        .map((b) => b.id == id ? b.copyWith(isPaid: !b.isPaid, isPlanned: false) : b)
+        .toList();
+  }
+
+  void removeBudgetEntry(String id) {
+    budgetEntries.value = budgetEntries.value.where((b) => b.id != id).toList();
+  }
+
+  void updateBudgetLimits({double? limit, double? target}) {
+    if (limit != null) monthlyBudget.value = limit;
+    if (target != null) savingsTarget.value = target;
   }
 
   void toggleTravelItem(String id) {

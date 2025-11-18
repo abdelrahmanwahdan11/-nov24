@@ -111,6 +111,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () => Navigator.pushNamed(context, AppRouter.patchTest),
                       ),
                       _WellnessCard(
+                        title: loc.t('sos_playbook'),
+                        icon: Icons.medical_services_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.sosPlaybook),
+                      ),
+                      _WellnessCard(
                         title: loc.t('shelf_life'),
                         icon: Icons.inventory_2_outlined,
                         onTap: () => Navigator.pushNamed(context, AppRouter.shelfLife),
@@ -144,6 +149,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         title: loc.t('coupon_center'),
                         icon: Icons.confirmation_number_outlined,
                         onTap: () => Navigator.pushNamed(context, AppRouter.couponCenter),
+                      ),
+                      _WellnessCard(
+                        title: loc.t('budget_planner'),
+                        icon: Icons.savings_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.budgetPlanner),
                       ),
                       _WellnessCard(
                         title: loc.t('coach_qna'),
