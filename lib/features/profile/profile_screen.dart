@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../core/data/mock_user.dart';
 import '../../core/localization/app_localizations.dart';
-import '../profile/settings_screen.dart';
-import '../profile/order_history_screen.dart';
+import '../../core/routing/app_router.dart';
 import '../../main.dart';
+import 'settings_screen.dart';
+import 'order_history_screen.dart';
+import 'help_center_screen.dart';
+import 'about_app_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -11,41 +13,92 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context);
-    final user = mockUser;
-    return ListView(
-      padding: const EdgeInsets.all(16),
-      children: [
-        Row(
+    final scope = AppScope.of(context);
+    return ValueListenableBuilder(
+      valueListenable: scope.authController.user,
+      builder: (_, user, __) {
+        final avatar = user?.avatarUrl ??
+            'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=800';
+        final name = user?.name ?? loc.t('guest');
+        final email = user?.email ?? 'guest@skin.app';
+        return ListView(
+          padding: const EdgeInsets.all(16),
           children: [
-            CircleAvatar(backgroundImage: NetworkImage(user.avatarUrl), radius: 32),
-            const SizedBox(width: 12),
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [Text(user.name), Text(user.email)])
+            Row(
+              children: [
+                CircleAvatar(backgroundImage: NetworkImage(avatar), radius: 32),
+                const SizedBox(width: 12),
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [Text(name), Text(email)])
+              ],
+            ),
+            const SizedBox(height: 16),
+            ListTile(
+              leading: const Icon(Icons.card_giftcard_outlined),
+              title: Text(loc.t('rewards')),
+              onTap: () => Navigator.pushNamed(context, AppRouter.rewards),
+            ),
+            ListTile(
+              leading: const Icon(Icons.notifications_none_rounded),
+              title: Text(loc.t('notifications')),
+              onTap: () => Navigator.pushNamed(context, AppRouter.notifications),
+            ),
+            ListTile(
+              leading: const Icon(Icons.place_outlined),
+              title: Text(loc.t('addresses')),
+              onTap: () => Navigator.pushNamed(context, AppRouter.addresses),
+            ),
+            ListTile(
+              leading: const Icon(Icons.quiz_outlined),
+              title: Text(loc.t('skin_quiz')),
+              onTap: () => Navigator.pushNamed(context, AppRouter.quiz),
+            ),
+            ListTile(
+              leading: const Icon(Icons.event_repeat_rounded),
+              title: Text(loc.t('routine_planner')),
+              onTap: () => Navigator.pushNamed(context, AppRouter.routine),
+            ),
+            ListTile(
+              leading: const Icon(Icons.receipt_long_outlined),
+              title: Text(loc.t('orders')),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const OrderHistoryScreen()),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.settings_outlined),
+              title: Text(loc.t('settings')),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SettingsScreen()),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.help_outline),
+              title: Text(loc.t('help')),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const HelpCenterScreen()),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.info_outline),
+              title: Text(loc.t('about')),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const AboutAppScreen()),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout),
+              title: Text(loc.t('logout')),
+              onTap: () => scope.authController.logout(),
+            ),
           ],
-        ),
-        const SizedBox(height: 16),
-        ListTile(
-          title: Text(loc.t('orders')),
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const OrderHistoryScreen()),
-          ),
-        ),
-        ListTile(
-          title: Text(loc.t('settings')),
-          onTap: () => Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const SettingsScreen()),
-          ),
-        ),
-        ListTile(
-          title: Text(loc.t('about')),
-          onTap: () => showAboutDialog(context: context, applicationName: loc.t('app_name')),
-        ),
-        ListTile(
-          title: const Text('Logout'),
-          onTap: () => AppScope.of(context).authController.logout(),
-        ),
-      ],
+        );
+      },
     );
   }
 }

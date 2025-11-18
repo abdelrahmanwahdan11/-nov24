@@ -11,11 +11,17 @@ final mockOrders = <Order>[
       CartItem(product: mockProducts[1], quantity: 2),
     ],
     status: 'delivered',
+    addressSummary: 'Villa 12, Palm Avenue, Riyadh',
+    deliveryEstimate: 'Arrived Tue, 7:30 pm',
+    paymentMethod: 'Apple Pay',
   ),
   Order(
     id: 'o2',
     date: DateTime.now().subtract(const Duration(days: 15)),
     items: [CartItem(product: mockProducts[2], quantity: 1)],
     status: 'processing',
+    addressSummary: 'Sky Tower, Jeddah',
+    deliveryEstimate: 'Est. Fri, 2:00 pm',
+    paymentMethod: 'Visa',
   ),
 ];

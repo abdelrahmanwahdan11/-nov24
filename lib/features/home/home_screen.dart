@@ -42,6 +42,36 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   AppSearchBar(onTap: () => Navigator.pushNamed(context, AppRouter.compare)),
                   const SizedBox(height: 12),
+                  SectionHeader(title: loc.t('wellness_hub')),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: _WellnessCard(
+                          title: loc.t('take_quiz'),
+                          icon: Icons.quiz_outlined,
+                          onTap: () => Navigator.pushNamed(context, AppRouter.quiz),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _WellnessCard(
+                          title: loc.t('plan_routine'),
+                          icon: Icons.event_repeat_rounded,
+                          onTap: () => Navigator.pushNamed(context, AppRouter.routine),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: _WellnessCard(
+                          title: loc.t('track_rewards'),
+                          icon: Icons.card_giftcard_outlined,
+                          onTap: () => Navigator.pushNamed(context, AppRouter.rewards),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
                   SectionHeader(title: loc.t('best_products')),
                   SizedBox(
                     height: 220,
@@ -115,6 +145,37 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _WellnessCard extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final VoidCallback onTap;
+  const _WellnessCard({required this.title, required this.icon, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          color: Theme.of(context).colorScheme.primary.withOpacity(0.07),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(icon),
+            const SizedBox(height: 8),
+            Text(title, style: Theme.of(context).textTheme.bodyLarge),
+          ],
+        ),
       ),
     );
   }

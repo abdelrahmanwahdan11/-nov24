@@ -9,6 +9,7 @@ import 'core/controllers/cart_controller.dart';
 import 'core/controllers/favorites_controller.dart';
 import 'core/controllers/settings_controller.dart';
 import 'core/controllers/search_controller.dart';
+import 'core/controllers/engagement_controller.dart';
 import 'core/routing/app_router.dart';
 
 void main() {
@@ -32,6 +33,7 @@ class _SkinCareAppState extends State<SkinCareApp> {
   late final FavoritesController _favoritesController;
   late final SettingsController _settingsController;
   late final SearchController _searchController;
+  late final EngagementController _engagementController;
   bool _loaded = false;
 
   @override
@@ -41,6 +43,7 @@ class _SkinCareAppState extends State<SkinCareApp> {
     _favoritesController = FavoritesController();
     _settingsController = SettingsController(_themeController, _localeController);
     _searchController = SearchController(_productController);
+    _engagementController = EngagementController();
     _bootstrap();
   }
 
@@ -61,6 +64,7 @@ class _SkinCareAppState extends State<SkinCareApp> {
     _cartController.dispose();
     _favoritesController.dispose();
     _searchController.dispose();
+    _engagementController.dispose();
     super.dispose();
   }
 
@@ -87,6 +91,7 @@ class _SkinCareAppState extends State<SkinCareApp> {
                   favoritesController: _favoritesController,
                   settingsController: _settingsController,
                   searchController: _searchController,
+                  engagementController: _engagementController,
                   child: MaterialApp(
                     debugShowCheckedModeBanner: false,
                     locale: locale,
@@ -116,8 +121,9 @@ class AppScope extends InheritedWidget {
   final FavoritesController favoritesController;
   final SettingsController settingsController;
   final SearchController searchController;
+  final EngagementController engagementController;
 
-  const AppScope({super.key, required super.child, required this.themeController, required this.localeController, required this.authController, required this.productController, required this.cartController, required this.favoritesController, required this.settingsController, required this.searchController});
+  const AppScope({super.key, required super.child, required this.themeController, required this.localeController, required this.authController, required this.productController, required this.cartController, required this.favoritesController, required this.settingsController, required this.searchController, required this.engagementController});
 
   static AppScope of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<AppScope>()!;
 

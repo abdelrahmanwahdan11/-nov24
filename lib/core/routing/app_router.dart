@@ -7,6 +7,13 @@ import '../../features/root_shell/root_shell.dart';
 import '../../features/splash/splash_screen.dart';
 import '../../features/product_details/product_details_screen.dart';
 import '../../features/comparison/comparison_screen.dart';
+import '../../features/profile/rewards_screen.dart';
+import '../../features/profile/notifications_screen.dart';
+import '../../features/profile/address_book_screen.dart';
+import '../../features/profile/skin_quiz_screen.dart';
+import '../../features/profile/routine_planner_screen.dart';
+import '../../features/profile/order_details_screen.dart';
+import '../models/order.dart';
 
 class AppRouter {
   static const splash = '/';
@@ -17,6 +24,12 @@ class AppRouter {
   static const root = '/root';
   static const productDetails = '/product';
   static const compare = '/compare';
+  static const rewards = '/rewards';
+  static const notifications = '/notifications';
+  static const addresses = '/addresses';
+  static const quiz = '/quiz';
+  static const routine = '/routine';
+  static const orderDetails = '/order-details';
 
   static Route<dynamic>? onGenerate(RouteSettings settings) {
     switch (settings.name) {
@@ -38,6 +51,20 @@ class AppRouter {
         );
       case compare:
         return MaterialPageRoute(builder: (_) => const ComparisonScreen());
+      case rewards:
+        return MaterialPageRoute(builder: (_) => const RewardsScreen());
+      case notifications:
+        return MaterialPageRoute(builder: (_) => const NotificationsScreen());
+      case addresses:
+        return MaterialPageRoute(builder: (_) => const AddressBookScreen());
+      case quiz:
+        return MaterialPageRoute(builder: (_) => const SkinQuizScreen());
+      case routine:
+        return MaterialPageRoute(builder: (_) => const RoutinePlannerScreen());
+      case orderDetails:
+        return MaterialPageRoute(
+          builder: (_) => OrderDetailsScreen(order: settings.arguments as Order),
+        );
       default:
         return null;
     }
