@@ -50,6 +50,11 @@ class ProfileScreen extends StatelessWidget {
               onTap: () => Navigator.pushNamed(context, AppRouter.diary),
             ),
             ListTile(
+              leading: const Icon(Icons.flag_outlined),
+              title: Text(loc.t('skin_goals')),
+              onTap: () => Navigator.pushNamed(context, AppRouter.goals),
+            ),
+            ListTile(
               leading: const Icon(Icons.video_call_outlined),
               title: Text(loc.t('book_consultation')),
               onTap: () => Navigator.pushNamed(context, AppRouter.consultation),
@@ -63,6 +68,11 @@ class ProfileScreen extends StatelessWidget {
               leading: const Icon(Icons.place_outlined),
               title: Text(loc.t('addresses')),
               onTap: () => Navigator.pushNamed(context, AppRouter.addresses),
+            ),
+            ListTile(
+              leading: const Icon(Icons.card_giftcard_outlined),
+              title: Text(loc.t('bundles')),
+              onTap: () => Navigator.pushNamed(context, AppRouter.bundles),
             ),
             ListTile(
               leading: const Icon(Icons.quiz_outlined),

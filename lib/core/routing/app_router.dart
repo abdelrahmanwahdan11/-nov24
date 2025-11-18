@@ -18,7 +18,10 @@ import '../../features/profile/glow_journal_screen.dart';
 import '../../features/profile/article_detail_screen.dart';
 import '../../features/profile/skin_diary_screen.dart';
 import '../../features/profile/consultation_screen.dart';
+import '../../features/profile/order_tracking_screen.dart';
+import '../../features/profile/skin_goals_screen.dart';
 import '../../features/search/search_overlay.dart';
+import '../../features/catalog/bundles_screen.dart';
 import '../models/order.dart';
 import '../models/article.dart';
 
@@ -43,6 +46,9 @@ class AppRouter {
   static const diary = '/diary';
   static const consultation = '/consultation';
   static const search = '/search';
+  static const trackOrder = '/track-order';
+  static const bundles = '/bundles';
+  static const goals = '/goals';
 
   static Route<dynamic>? onGenerate(RouteSettings settings) {
     switch (settings.name) {
@@ -92,6 +98,14 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const ConsultationScreen());
       case search:
         return MaterialPageRoute(builder: (_) => const SearchOverlay());
+      case trackOrder:
+        return MaterialPageRoute(
+          builder: (_) => OrderTrackingScreen(order: settings.arguments as Order),
+        );
+      case bundles:
+        return MaterialPageRoute(builder: (_) => const BundlesScreen());
+      case goals:
+        return MaterialPageRoute(builder: (_) => const SkinGoalsScreen());
       default:
         return null;
     }

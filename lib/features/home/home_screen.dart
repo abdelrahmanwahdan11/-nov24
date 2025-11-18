@@ -11,6 +11,7 @@ import '../../core/widgets/product_3d_card.dart';
 import '../../core/widgets/search_bar.dart';
 import '../../core/routing/app_router.dart';
 import '../../core/data/mock_articles.dart';
+import '../../core/data/mock_bundles.dart';
 
 class HomeScreen extends StatefulWidget {
   final ProductController controller;
@@ -55,6 +56,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     runSpacing: 12,
                     children: [
                       _WellnessCard(
+                        title: loc.t('bundles'),
+                        icon: Icons.card_giftcard_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.bundles),
+                      ),
+                      _WellnessCard(
                         title: loc.t('take_quiz'),
                         icon: Icons.quiz_outlined,
                         onTap: () => Navigator.pushNamed(context, AppRouter.quiz),
@@ -73,6 +79,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         title: loc.t('skin_diary'),
                         icon: Icons.edit_note_outlined,
                         onTap: () => Navigator.pushNamed(context, AppRouter.diary),
+                      ),
+                      _WellnessCard(
+                        title: loc.t('skin_goals'),
+                        icon: Icons.flag_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.goals),
                       ),
                       _WellnessCard(
                         title: loc.t('book_consultation'),
@@ -117,10 +128,61 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(height: 16),
-                  SectionHeader(title: loc.t('glow_journal')),
-                  const SizedBox(height: 8),
-                  SizedBox(
+                const SizedBox(height: 16),
+                SectionHeader(title: loc.t('curated_sets')),
+                const SizedBox(height: 8),
+                SizedBox(
+                  height: 190,
+                  child: ListView.separated(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: mockBundles.length,
+                    separatorBuilder: (_, __) => const SizedBox(width: 12),
+                    itemBuilder: (_, index) {
+                      final bundle = mockBundles[index];
+                      return InkWell(
+                        onTap: () => Navigator.pushNamed(context, AppRouter.bundles),
+                        borderRadius: BorderRadius.circular(16),
+                        child: Container(
+                          width: 240,
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.primary.withOpacity(0.07),
+                            borderRadius: BorderRadius.circular(16),
+                            image: DecorationImage(
+                              image: NetworkImage(bundle.imageUrl),
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                Theme.of(context).colorScheme.background.withOpacity(0.25),
+                                BlendMode.srcATop,
+                              ),
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Chip(label: Text('${loc.t('currency')} ${bundle.price.toStringAsFixed(0)}')),
+                              const Spacer(),
+                              Text(bundle.title,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium
+                                      ?.copyWith(fontWeight: FontWeight.w700)),
+                              Text(bundle.subtitle,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodySmall
+                                      ?.copyWith(color: Theme.of(context).hintColor)),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 16),
+                SectionHeader(title: loc.t('glow_journal')),
+                const SizedBox(height: 8),
+                SizedBox(
                     height: 140,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,

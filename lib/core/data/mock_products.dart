@@ -89,4 +89,92 @@ final mockProducts = <Product>[
     isNew: false,
     skinType: 'All',
   ),
+  Product(
+    id: 'p5',
+    nameEn: 'Niacinamide Essence',
+    nameAr: 'إسنس النياسيناميد',
+    price: 27.0,
+    size: '100ml',
+    rating: 4.5,
+    reviewsCount: 145,
+    category: 'Face',
+    imageUrl:
+        'https://images.pexels.com/photos/3735633/pexels-photo-3735633.jpeg?auto=compress&cs=tinysrgb&w=800',
+    descriptionShortEn: 'Lightweight essence to smooth texture and refine pores.',
+    descriptionShortAr: 'إسنس خفيف ينعم الملمس ويصغر المسام.',
+    descriptionLongEn:
+        'Balances oil, soothes redness, and layers well before serums for combination skin.',
+    descriptionLongAr:
+        'يوزن الدهون ويهدئ الاحمرار ويتماشى مع السيرومات للبشرة المختلطة.',
+    tags: ['pores', 'balance', 'lightweight'],
+    isBestSeller: false,
+    isNew: true,
+    skinType: 'Combination',
+  ),
+  Product(
+    id: 'p6',
+    nameEn: 'Ceramide Cloud Cream',
+    nameAr: 'كريم السيراميد السحابي',
+    price: 34.0,
+    size: '60ml',
+    rating: 4.9,
+    reviewsCount: 260,
+    category: 'Face',
+    imageUrl:
+        'https://images.pexels.com/photos/853843/pexels-photo-853843.jpeg?auto=compress&cs=tinysrgb&w=800',
+    descriptionShortEn: 'Pillow-soft moisturizer that repairs the skin barrier.',
+    descriptionShortAr: 'مرطب ناعم كالسحاب يصلح حاجز البشرة.',
+    descriptionLongEn:
+        'Packed with ceramides and peptides to keep moisture locked in through the night.',
+    descriptionLongAr:
+        'محمل بالسيراميد والببتيدات ليحفظ الرطوبة حتى الصباح.',
+    tags: ['barrier', 'peptides', 'night'],
+    isBestSeller: true,
+    isNew: false,
+    skinType: 'Dry',
+  ),
+  Product(
+    id: 'p7',
+    nameEn: 'Mineral SPF Veil 50',
+    nameAr: 'واقي شمس معدني ٥٠',
+    price: 22.0,
+    size: '75ml',
+    rating: 4.3,
+    reviewsCount: 88,
+    category: 'Face',
+    imageUrl:
+        'https://images.pexels.com/photos/672425/pexels-photo-672425.jpeg?auto=compress&cs=tinysrgb&w=800',
+    descriptionShortEn: 'UVA/UVB protection with a soft matte finish.',
+    descriptionShortAr: 'حماية من الأشعة مع لمسة مطفية خفيفة.',
+    descriptionLongEn:
+        'Non-nano zinc formula that blends quickly and sits well under makeup.',
+    descriptionLongAr:
+        'تركيبة زنك غير نانوية تمتزج سريعاً وتناسب المكياج.',
+    tags: ['spf', 'mineral', 'daily'],
+    isBestSeller: false,
+    isNew: true,
+    skinType: 'Sensitive',
+  ),
+  Product(
+    id: 'p8',
+    nameEn: 'Aloe Recovery Gel',
+    nameAr: 'جل الألوفيرا المهدئ',
+    price: 19.5,
+    size: '150ml',
+    rating: 4.2,
+    reviewsCount: 132,
+    category: 'Body',
+    imageUrl:
+        'https://images.pexels.com/photos/3735641/pexels-photo-3735641.jpeg?auto=compress&cs=tinysrgb&w=800',
+    descriptionShortEn: 'Cooling gel for post-sun relief and hydration.',
+    descriptionShortAr: 'جل مبرد لتهدئة البشرة بعد الشمس وترطيبها.',
+    descriptionLongEn:
+        'Lightweight aloe and panthenol blend that absorbs instantly without stickiness.',
+    descriptionLongAr:
+        'مزيج الألوفيرا والبانثينول يمتص فوراً بدون لزوجة.',
+    tags: ['soothing', 'cooling', 'after-sun'],
+    isBestSeller: false,
+    isNew: false,
+    skinType: 'All',
+  ),
 ];

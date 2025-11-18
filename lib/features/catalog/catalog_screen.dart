@@ -184,6 +184,15 @@ class _CatalogScreenState extends State<CatalogScreen> {
                 )
               ],
             ),
+            const SizedBox(height: 8),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: TextButton.icon(
+                onPressed: () => Navigator.pushNamed(context, AppRouter.bundles),
+                icon: const Icon(Icons.card_giftcard_outlined),
+                label: Text(loc.t('curated_sets')),
+              ),
+            ),
             const SizedBox(height: 12),
             Expanded(
               child: StreamBuilder<List<dynamic>>(

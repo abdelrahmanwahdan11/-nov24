@@ -6,6 +6,7 @@ import '../models/app_notification.dart';
 import '../models/routine_step.dart';
 import '../models/skin_quiz_question.dart';
 import '../models/skin_diary_entry.dart';
+import '../models/skin_goal.dart';
 
 class EngagementController {
   final ValueNotifier<List<AppNotification>> notifications =
@@ -22,6 +23,28 @@ class EngagementController {
     ),
   ]);
   final ValueNotifier<DateTime?> nextConsultation = ValueNotifier(null);
+  final ValueNotifier<List<SkinGoal>> goals = ValueNotifier(const [
+    SkinGoal(
+      id: 'g1',
+      title: 'Fade dark spots',
+      description: 'Vitamin C and SPF routine to even your tone.',
+      tasks: [
+        SkinGoalTask(title: 'Apply vitamin C every morning'),
+        SkinGoalTask(title: 'Use SPF 50 daily'),
+        SkinGoalTask(title: 'Track weekly progress photo'),
+      ],
+    ),
+    SkinGoal(
+      id: 'g2',
+      title: 'Calm sensitivity',
+      description: 'Repair your barrier with ceramides and gentle cleanse.',
+      tasks: [
+        SkinGoalTask(title: 'Use fragrance-free cleanser at night'),
+        SkinGoalTask(title: 'Moisturize twice daily'),
+        SkinGoalTask(title: 'Limit exfoliation to once a week'),
+      ],
+    ),
+  ]);
   final List<DateTime> availableConsultations = List.generate(
     6,
     (index) => DateTime.now().add(Duration(days: index + 1, hours: 10 + index)),
@@ -123,6 +146,17 @@ class EngagementController {
     nextConsultation.value = slot;
   }
 
+  void toggleGoalStep(String goalId, int index) {
+    goals.value = goals.value.map((goal) {
+      if (goal.id != goalId) return goal;
+      final updatedTasks = [...goal.tasks];
+      if (index >= 0 && index < updatedTasks.length) {
+        updatedTasks[index] = updatedTasks[index].toggle();
+      }
+      return goal.copyWith(tasks: updatedTasks);
+    }).toList();
+  }
+
   String deriveQuizSummary() {
     if (quizResult.value.isEmpty) return 'balanced';
     final hasOil = quizResult.value.any((e) => e.contains('Oily'));
@@ -140,5 +174,6 @@ class EngagementController {
     quizResult.dispose();
     diaryEntries.dispose();
     nextConsultation.dispose();
+    goals.dispose();
   }
 }

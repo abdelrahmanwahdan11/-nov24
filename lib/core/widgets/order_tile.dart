@@ -12,8 +12,16 @@ class OrderTile extends StatelessWidget {
     final loc = AppLocalizations.of(context);
     return ListTile(
       onTap: onTap,
+      isThreeLine: true,
       title: Text('Order #${order.id}'),
-      subtitle: Text('${order.status} • ${order.date.toLocal().toString().split(' ').first}'),
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('${order.date.toLocal().toString().split(' ').first} • ${order.deliveryEstimate}'),
+          const SizedBox(height: 4),
+          Chip(label: Text(order.status)),
+        ],
+      ),
       trailing: Text('${loc.t('currency')} ${order.total.toStringAsFixed(2)}'),
     );
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../core/localization/app_localizations.dart';
 import '../../core/models/order.dart';
+import '../../core/routing/app_router.dart';
+import '../../main.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
   final Order order;
@@ -9,6 +11,7 @@ class OrderDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loc = AppLocalizations.of(context);
+    final scope = AppScope.of(context);
     return Scaffold(
       appBar: AppBar(title: Text('${loc.t('order')} #${order.id}')),
       body: ListView(
@@ -58,6 +61,34 @@ class OrderDetailsScreen extends StatelessWidget {
             title: Text(loc.t('total')),
             trailing: Text('${loc.t('currency')} ${order.total.toStringAsFixed(2)}'),
           ),
+          const SizedBox(height: 16),
+          Wrap(
+            spacing: 12,
+            runSpacing: 8,
+            children: [
+              ElevatedButton.icon(
+                onPressed: () => Navigator.pushNamed(
+                  context,
+                  AppRouter.trackOrder,
+                  arguments: order,
+                ),
+                icon: const Icon(Icons.map_outlined),
+                label: Text(loc.t('track_order')),
+              ),
+              if (order.canReorder)
+                OutlinedButton.icon(
+                  onPressed: () {
+                    for (final item in order.items) {
+                      scope.cartController.addToCart(item.product, item.quantity);
+                    }
+                    ScaffoldMessenger.of(context)
+                        .showSnackBar(SnackBar(content: Text(loc.t('reorder_added'))));
+                  },
+                  icon: const Icon(Icons.restart_alt),
+                  label: Text(loc.t('reorder')),
+                ),
+            ],
+          )
         ],
       ),
     );
