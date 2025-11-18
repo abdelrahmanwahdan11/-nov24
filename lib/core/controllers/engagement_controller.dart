@@ -9,6 +9,7 @@ import '../models/ingredient.dart';
 import '../models/address.dart';
 import '../models/app_notification.dart';
 import '../models/coupon.dart';
+import '../models/coach_qna.dart';
 import '../models/routine_step.dart';
 import '../models/skin_diary_entry.dart';
 import '../models/skin_goal.dart';
@@ -18,6 +19,7 @@ import '../models/wellness_challenge.dart';
 import '../models/wellness_plan.dart';
 import '../models/skin_metric.dart';
 import '../models/tracking_event.dart';
+import '../models/travel_kit_item.dart';
 
 class EngagementController {
   final ValueNotifier<List<AppNotification>> notifications =
@@ -35,6 +37,51 @@ class EngagementController {
       ValueNotifier(List.from(mockSubscriptions));
   final ValueNotifier<List<WellnessChallenge>> challenges =
       ValueNotifier(List.from(mockChallenges));
+  final ValueNotifier<List<CoachQna>> coachQna = ValueNotifier([
+    CoachQna(
+      id: 'q1',
+      question: 'How should I layer serums for oily T-zone?',
+      answer: 'Start watery textures first, then gel, seal with a light cream.',
+      isAnswered: true,
+      createdAt: DateTime.now().subtract(const Duration(days: 1)),
+    ),
+    CoachQna(
+      id: 'q2',
+      question: 'Traveling to humid weather—what to pack?',
+      answer: 'Bring minis of cleanser, mist, gel moisturizer, and SPF stick.',
+      isAnswered: true,
+      createdAt: DateTime.now().subtract(const Duration(hours: 5)),
+    ),
+  ]);
+  final ValueNotifier<List<TravelKitItem>> travelKit = ValueNotifier(const [
+    TravelKitItem(
+      id: 'pack-cleanser',
+      title: 'Cleanser mini',
+      subtitle: 'Leak-proof tube for security checks',
+    ),
+    TravelKitItem(
+      id: 'pack-spf',
+      title: 'SPF stick',
+      subtitle: 'Cabin-safe and easy to reapply',
+    ),
+    TravelKitItem(
+      id: 'pack-mask',
+      title: 'Soothing mask',
+      subtitle: 'For flights longer than 4 hours',
+    ),
+    TravelKitItem(
+      id: 'pack-hydrator',
+      title: 'Hydrating mist',
+      subtitle: 'Refresh before landing',
+    ),
+    TravelKitItem(
+      id: 'pack-zip',
+      title: 'Zip pouch',
+      subtitle: 'Keep liquids together',
+    ),
+  ]);
+  final ValueNotifier<String> travelClimate =
+      ValueNotifier('Dry cabin · pack humectants');
   final ValueNotifier<List<SkinMetric>> skinMetrics = ValueNotifier([
     SkinMetric(
       date: DateTime.now().subtract(const Duration(days: 2)),
@@ -364,6 +411,30 @@ class EngagementController {
     diaryEntries.value = [entry, ...diaryEntries.value];
   }
 
+  void addCoachQuestion(String prompt) {
+    if (prompt.trim().isEmpty) return;
+    final entry = CoachQna(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      question: prompt.trim(),
+      answer: 'We will craft a tailored tip and drop it here soon.',
+      isAnswered: false,
+      createdAt: DateTime.now(),
+    );
+    coachQna.value = [entry, ...coachQna.value];
+  }
+
+  void toggleTravelItem(String id) {
+    travelKit.value = travelKit.value
+        .map((item) => item.id == id
+            ? item.copyWith(packed: !item.packed)
+            : item)
+        .toList();
+  }
+
+  void setTravelClimate(String label) {
+    travelClimate.value = label;
+  }
+
   void logSkinMetric(SkinMetric metric) {
     final updated = [metric, ...skinMetrics.value]
       ..sort((a, b) => b.date.compareTo(a.date));
@@ -511,5 +582,8 @@ class EngagementController {
     eveningReminderEnabled.dispose();
     morningReminderTime.dispose();
     eveningReminderTime.dispose();
+    coachQna.dispose();
+    travelKit.dispose();
+    travelClimate.dispose();
   }
 }

@@ -33,6 +33,8 @@ import '../../features/profile/reminders_screen.dart';
 import '../../features/profile/skin_insights_screen.dart';
 import '../../features/profile/wellness_timeline_screen.dart';
 import '../../features/profile/routine_calendar_screen.dart';
+import '../../features/profile/coach_qna_screen.dart';
+import '../../features/profile/travel_mode_screen.dart';
 import '../../features/search/search_overlay.dart';
 import '../../features/catalog/bundles_screen.dart';
 import '../models/order.dart';
@@ -75,6 +77,8 @@ class AppRouter {
   static const skinInsights = '/skin-insights';
   static const wellnessTimeline = '/wellness-timeline';
   static const routineCalendar = '/routine-calendar';
+  static const coachQna = '/coach-qna';
+  static const travelMode = '/travel-mode';
 
   static Route<dynamic>? onGenerate(RouteSettings settings) {
     switch (settings.name) {
@@ -158,6 +162,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const WellnessTimelineScreen());
       case routineCalendar:
         return MaterialPageRoute(builder: (_) => const RoutineCalendarScreen());
+      case coachQna:
+        return MaterialPageRoute(builder: (_) => const CoachQnaScreen());
+      case travelMode:
+        return MaterialPageRoute(builder: (_) => const TravelModeScreen());
       default:
         return null;
     }

@@ -70,6 +70,16 @@ class ProfileScreen extends StatelessWidget {
               onTap: () => Navigator.pushNamed(context, AppRouter.couponCenter),
             ),
             ListTile(
+              leading: const Icon(Icons.forum_outlined),
+              title: Text(loc.t('coach_qna')),
+              onTap: () => Navigator.pushNamed(context, AppRouter.coachQna),
+            ),
+            ListTile(
+              leading: const Icon(Icons.flight_takeoff_outlined),
+              title: Text(loc.t('travel_mode')),
+              onTap: () => Navigator.pushNamed(context, AppRouter.travelMode),
+            ),
+            ListTile(
               leading: const Icon(Icons.menu_book_outlined),
               title: Text(loc.t('glow_journal')),
               onTap: () => Navigator.pushNamed(context, AppRouter.journal),

@@ -136,6 +136,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () => Navigator.pushNamed(context, AppRouter.couponCenter),
                       ),
                       _WellnessCard(
+                        title: loc.t('coach_qna'),
+                        icon: Icons.forum_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.coachQna),
+                      ),
+                      _WellnessCard(
+                        title: loc.t('travel_mode'),
+                        icon: Icons.flight_takeoff_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.travelMode),
+                      ),
+                      _WellnessCard(
                         title: loc.t('subscriptions'),
                         icon: Icons.autorenew_outlined,
                         onTap: () => Navigator.pushNamed(context, AppRouter.subscriptions),
