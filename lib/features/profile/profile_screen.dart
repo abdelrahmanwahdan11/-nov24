@@ -136,6 +136,16 @@ class ProfileScreen extends StatelessWidget {
               onTap: () => Navigator.pushNamed(context, AppRouter.skinHealth),
             ),
             ListTile(
+              leading: const Icon(Icons.auto_graph_rounded),
+              title: Text(loc.t('skin_insights')),
+              onTap: () => Navigator.pushNamed(context, AppRouter.skinInsights),
+            ),
+            ListTile(
+              leading: const Icon(Icons.timeline_rounded),
+              title: Text(loc.t('wellness_timeline')),
+              onTap: () => Navigator.pushNamed(context, AppRouter.wellnessTimeline),
+            ),
+            ListTile(
               leading: const Icon(Icons.notifications_active_outlined),
               title: Text(loc.t('reminders')),
               onTap: () => Navigator.pushNamed(context, AppRouter.reminders),
@@ -144,6 +154,11 @@ class ProfileScreen extends StatelessWidget {
               leading: const Icon(Icons.event_repeat_rounded),
               title: Text(loc.t('routine_planner')),
               onTap: () => Navigator.pushNamed(context, AppRouter.routine),
+            ),
+            ListTile(
+              leading: const Icon(Icons.calendar_month_outlined),
+              title: Text(loc.t('routine_calendar')),
+              onTap: () => Navigator.pushNamed(context, AppRouter.routineCalendar),
             ),
             ListTile(
               leading: const Icon(Icons.task_outlined),

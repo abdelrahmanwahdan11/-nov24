@@ -111,6 +111,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () => Navigator.pushNamed(context, AppRouter.skinHealth),
                       ),
                       _WellnessCard(
+                        title: loc.t('skin_insights'),
+                        icon: Icons.auto_graph_rounded,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.skinInsights),
+                      ),
+                      _WellnessCard(
+                        title: loc.t('wellness_timeline'),
+                        icon: Icons.timeline_rounded,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.wellnessTimeline),
+                      ),
+                      _WellnessCard(
                         title: loc.t('reminders'),
                         icon: Icons.notifications_active_outlined,
                         onTap: () => Navigator.pushNamed(context, AppRouter.reminders),
@@ -139,6 +149,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         title: loc.t('challenges'),
                         icon: Icons.auto_awesome_motion_outlined,
                         onTap: () => Navigator.pushNamed(context, AppRouter.challenges),
+                      ),
+                      _WellnessCard(
+                        title: loc.t('routine_calendar'),
+                        icon: Icons.calendar_month_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.routineCalendar),
                       ),
                       _WellnessCard(
                         title: loc.t('wellness_dashboard'),

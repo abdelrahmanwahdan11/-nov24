@@ -17,6 +17,7 @@ import '../models/subscription_plan.dart';
 import '../models/wellness_challenge.dart';
 import '../models/wellness_plan.dart';
 import '../models/skin_metric.dart';
+import '../models/tracking_event.dart';
 
 class EngagementController {
   final ValueNotifier<List<AppNotification>> notifications =
@@ -173,6 +174,32 @@ class EngagementController {
         WellnessPlanTask(title: 'Deep moisturize lips + eyes'),
         WellnessPlanTask(title: 'Clean tools and gua sha'),
       ],
+    ),
+  ]);
+  final ValueNotifier<Set<String>> completedPlanDays =
+      ValueNotifier(<String>{});
+  final ValueNotifier<List<TrackingEvent>> timelineEvents = ValueNotifier([
+    const TrackingEvent(
+      title: 'Routine complete',
+      timestamp: 'Today · 8:05 AM',
+      detail: 'Finished morning cleanse, essence, and SPF.',
+      isDone: true,
+    ),
+    const TrackingEvent(
+      title: 'Hydration check-in',
+      timestamp: 'Yesterday · 10:15 PM',
+      detail: 'Hydration 0.74 • Radiance 0.70 • Breakouts 1',
+      isDone: true,
+    ),
+    const TrackingEvent(
+      title: 'Evening reminder snoozed',
+      timestamp: 'Mon · 9:15 PM',
+      detail: 'Evening reminder moved by 30 minutes.',
+    ),
+    const TrackingEvent(
+      title: 'New care plan tip',
+      timestamp: 'Sun · 5:45 PM',
+      detail: 'Swap exfoliation for soothing mask when skin feels warm.',
     ),
   ]);
   final List<DateTime> availableConsultations = List.generate(
@@ -341,6 +368,16 @@ class EngagementController {
     final updated = [metric, ...skinMetrics.value]
       ..sort((a, b) => b.date.compareTo(a.date));
     skinMetrics.value = updated;
+    timelineEvents.value = [
+      TrackingEvent(
+        title: 'Hydration check-in',
+        timestamp: '${metric.date.month}/${metric.date.day} · ${metric.date.hour}:${metric.date.minute.toString().padLeft(2, '0')}',
+        detail:
+            'Hydration ${(metric.hydration * 100).toStringAsFixed(0)}% • Radiance ${(metric.radiance * 100).toStringAsFixed(0)}% • Breakouts ${metric.breakouts}',
+        isDone: true,
+      ),
+      ...timelineEvents.value,
+    ];
   }
 
   void toggleReminder({required bool morning, required bool enabled}) {
@@ -390,6 +427,54 @@ class EngagementController {
         .map((day) => day.copyWith(
             tasks: day.tasks.map((task) => task.copyWith(completed: false)).toList()))
         .toList();
+    completedPlanDays.value = <String>{};
+  }
+
+  void togglePlanDay(String dayId) {
+    final next = {...completedPlanDays.value};
+    if (next.contains(dayId)) {
+      next.remove(dayId);
+    } else {
+      next.add(dayId);
+    }
+    completedPlanDays.value = next;
+  }
+
+  Map<String, double> weeklySkinAverages() {
+    final recent = skinMetrics.value.take(7).toList();
+    if (recent.isEmpty) return {'hydration': 0, 'radiance': 0, 'breakouts': 0};
+    final hydration =
+        recent.map((m) => m.hydration).reduce((a, b) => a + b) / recent.length;
+    final radiance =
+        recent.map((m) => m.radiance).reduce((a, b) => a + b) / recent.length;
+    final breakouts =
+        recent.map((m) => m.breakouts).reduce((a, b) => a + b) / recent.length;
+    return {
+      'hydration': hydration,
+      'radiance': radiance,
+      'breakouts': breakouts,
+    };
+  }
+
+  List<String> deriveInsights() {
+    final averages = weeklySkinAverages();
+    final insights = <String>[];
+    if (averages['hydration']! < 0.65) {
+      insights.add(
+          'Boost hydration with humectants and seal with moisturizer on damp skin.');
+    } else {
+      insights.add('Hydration is trending solid—keep misting before serums.');
+    }
+    if (averages['radiance']! < 0.6) {
+      insights.add('Add a gentle brightening serum twice weekly to lift radiance.');
+    }
+    if (averages['breakouts']! > 1.5) {
+      insights.add('Breakouts spiked—pair BHA nights with barrier-repair moisturizers.');
+    }
+    if (timelineEvents.value.length > 3) {
+      insights.add('Nice streak! Convert logs into a printable skin report anytime.');
+    }
+    return insights;
   }
 
   String deriveQuizSummary() {
@@ -420,6 +505,8 @@ class EngagementController {
     ingredients.dispose();
     carePlan.dispose();
     skinMetrics.dispose();
+    completedPlanDays.dispose();
+    timelineEvents.dispose();
     morningReminderEnabled.dispose();
     eveningReminderEnabled.dispose();
     morningReminderTime.dispose();

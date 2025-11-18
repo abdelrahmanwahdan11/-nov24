@@ -30,6 +30,9 @@ import '../../features/profile/ingredient_library_screen.dart';
 import '../../features/profile/care_plan_screen.dart';
 import '../../features/profile/skin_health_screen.dart';
 import '../../features/profile/reminders_screen.dart';
+import '../../features/profile/skin_insights_screen.dart';
+import '../../features/profile/wellness_timeline_screen.dart';
+import '../../features/profile/routine_calendar_screen.dart';
 import '../../features/search/search_overlay.dart';
 import '../../features/catalog/bundles_screen.dart';
 import '../models/order.dart';
@@ -69,6 +72,9 @@ class AppRouter {
   static const carePlan = '/care-plan';
   static const skinHealth = '/skin-health';
   static const reminders = '/reminders';
+  static const skinInsights = '/skin-insights';
+  static const wellnessTimeline = '/wellness-timeline';
+  static const routineCalendar = '/routine-calendar';
 
   static Route<dynamic>? onGenerate(RouteSettings settings) {
     switch (settings.name) {
@@ -146,6 +152,12 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const SkinHealthScreen());
       case reminders:
         return MaterialPageRoute(builder: (_) => const RemindersScreen());
+      case skinInsights:
+        return MaterialPageRoute(builder: (_) => const SkinInsightsScreen());
+      case wellnessTimeline:
+        return MaterialPageRoute(builder: (_) => const WellnessTimelineScreen());
+      case routineCalendar:
+        return MaterialPageRoute(builder: (_) => const RoutineCalendarScreen());
       default:
         return null;
     }
