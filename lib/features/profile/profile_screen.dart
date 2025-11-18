@@ -126,9 +126,19 @@ class ProfileScreen extends StatelessWidget {
               onTap: () => Navigator.pushNamed(context, AppRouter.quiz),
             ),
             ListTile(
+              leading: const Icon(Icons.library_books_outlined),
+              title: Text(loc.t('ingredient_library')),
+              onTap: () => Navigator.pushNamed(context, AppRouter.ingredientLibrary),
+            ),
+            ListTile(
               leading: const Icon(Icons.event_repeat_rounded),
               title: Text(loc.t('routine_planner')),
               onTap: () => Navigator.pushNamed(context, AppRouter.routine),
+            ),
+            ListTile(
+              leading: const Icon(Icons.task_outlined),
+              title: Text(loc.t('care_plan')),
+              onTap: () => Navigator.pushNamed(context, AppRouter.carePlan),
             ),
             ListTile(
               leading: const Icon(Icons.receipt_long_outlined),

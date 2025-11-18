@@ -4,6 +4,8 @@ import '../data/mock_challenges.dart';
 import '../data/mock_coupons.dart';
 import '../data/mock_notifications.dart';
 import '../data/mock_subscriptions.dart';
+import '../data/mock_ingredients.dart';
+import '../models/ingredient.dart';
 import '../models/address.dart';
 import '../models/app_notification.dart';
 import '../models/coupon.dart';
@@ -13,6 +15,7 @@ import '../models/skin_goal.dart';
 import '../models/skin_quiz_question.dart';
 import '../models/subscription_plan.dart';
 import '../models/wellness_challenge.dart';
+import '../models/wellness_plan.dart';
 
 class EngagementController {
   final ValueNotifier<List<AppNotification>> notifications =
@@ -58,6 +61,87 @@ class EngagementController {
         SkinGoalTask(title: 'Use fragrance-free cleanser at night'),
         SkinGoalTask(title: 'Moisturize twice daily'),
         SkinGoalTask(title: 'Limit exfoliation to once a week'),
+      ],
+    ),
+  ]);
+  final ValueNotifier<List<Ingredient>> ingredients =
+      ValueNotifier(List.from(mockIngredients));
+  final ValueNotifier<List<WellnessPlanDay>> carePlan = ValueNotifier([
+    WellnessPlanDay(
+      id: 'plan-mon',
+      dayLabel: 'Monday',
+      focus: 'Hydration reset',
+      tip: 'Layer humectants on damp skin, then seal with moisturizer.',
+      tasks: const [
+        WellnessPlanTask(title: 'Double cleanse at night'),
+        WellnessPlanTask(title: 'Mist + hydrating serum'),
+        WellnessPlanTask(title: 'Rich moisturizer before bed'),
+      ],
+    ),
+    WellnessPlanDay(
+      id: 'plan-tue',
+      dayLabel: 'Tuesday',
+      focus: 'Clarify + calm',
+      tip: 'Follow exfoliation with a soothing serum to avoid dryness.',
+      tasks: const [
+        WellnessPlanTask(title: 'BHA toner at PM'),
+        WellnessPlanTask(title: 'Spot treat blemishes'),
+        WellnessPlanTask(title: 'Barrier cream to finish'),
+      ],
+    ),
+    WellnessPlanDay(
+      id: 'plan-wed',
+      dayLabel: 'Wednesday',
+      focus: 'Brighten tone',
+      tip: 'Pair vitamin C with sunscreen for amplified glow.',
+      tasks: const [
+        WellnessPlanTask(title: 'Vitamin C serum AM'),
+        WellnessPlanTask(title: 'Lightweight gel moisturizer'),
+        WellnessPlanTask(title: 'SPF 50 reapply at midday'),
+      ],
+    ),
+    WellnessPlanDay(
+      id: 'plan-thu',
+      dayLabel: 'Thursday',
+      focus: 'Barrier night',
+      tip: 'Skip strong actives and layer ceramides when skin feels tight.',
+      tasks: const [
+        WellnessPlanTask(title: 'Cream cleanser'),
+        WellnessPlanTask(title: 'Ceramide serum'),
+        WellnessPlanTask(title: 'Overnight recovery mask'),
+      ],
+    ),
+    WellnessPlanDay(
+      id: 'plan-fri',
+      dayLabel: 'Friday',
+      focus: 'Retinol focus',
+      tip: 'Keep retinol nights simple: cleanse, retinol, moisturize.',
+      tasks: const [
+        WellnessPlanTask(title: 'Gentle cleanse'),
+        WellnessPlanTask(title: 'Retinol pea-size amount'),
+        WellnessPlanTask(title: 'Buffer with moisturizer'),
+      ],
+    ),
+    WellnessPlanDay(
+      id: 'plan-sat',
+      dayLabel: 'Saturday',
+      focus: 'Recovery + massage',
+      tip: 'Use facial oil for slip and lymphatic drainage massage.',
+      tasks: const [
+        WellnessPlanTask(title: 'Brightening mask morning'),
+        WellnessPlanTask(title: 'Face massage with oil'),
+        WellnessPlanTask(title: 'SPF + hat outdoors'),
+      ],
+    ),
+    WellnessPlanDay(
+      id: 'plan-sun',
+      dayLabel: 'Sunday',
+      focus: 'Prep next week',
+      tip: 'Refill minis, clean brushes, and set reminders for sunscreen.',
+      tasks: const [
+        WellnessPlanTask(title: 'Gentle enzyme exfoliation'),
+        WellnessPlanTask(title: 'Deep moisturize lips + eyes'),
+        WellnessPlanTask(title: 'Clean tools and gua sha'),
       ],
     ),
   ]);
@@ -238,6 +322,24 @@ class EngagementController {
     }).toList();
   }
 
+  void togglePlanTask(String dayId, int taskIndex) {
+    carePlan.value = carePlan.value.map((day) {
+      if (day.id != dayId) return day;
+      final updated = [...day.tasks];
+      if (taskIndex >= 0 && taskIndex < updated.length) {
+        updated[taskIndex] = updated[taskIndex].toggle();
+      }
+      return day.copyWith(tasks: updated);
+    }).toList();
+  }
+
+  void resetPlanProgress() {
+    carePlan.value = carePlan.value
+        .map((day) => day.copyWith(
+            tasks: day.tasks.map((task) => task.copyWith(completed: false)).toList()))
+        .toList();
+  }
+
   String deriveQuizSummary() {
     if (quizResult.value.isEmpty) return 'balanced';
     final hasOil = quizResult.value.any((e) => e.contains('Oily'));
@@ -263,5 +365,7 @@ class EngagementController {
     coupons.dispose();
     subscriptions.dispose();
     challenges.dispose();
+    ingredients.dispose();
+    carePlan.dispose();
   }
 }

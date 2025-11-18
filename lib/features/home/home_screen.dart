@@ -71,6 +71,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () => Navigator.pushNamed(context, AppRouter.routine),
                       ),
                       _WellnessCard(
+                        title: loc.t('care_plan'),
+                        icon: Icons.task_alt_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.carePlan),
+                      ),
+                      _WellnessCard(
                         title: loc.t('track_rewards'),
                         icon: Icons.card_giftcard_outlined,
                         onTap: () => Navigator.pushNamed(context, AppRouter.rewards),
@@ -94,6 +99,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         title: loc.t('glow_journal'),
                         icon: Icons.menu_book_outlined,
                         onTap: () => Navigator.pushNamed(context, AppRouter.journal),
+                      ),
+                      _WellnessCard(
+                        title: loc.t('ingredient_library'),
+                        icon: Icons.local_florist_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.ingredientLibrary),
                       ),
                       _WellnessCard(
                         title: loc.t('referrals'),
