@@ -6,6 +6,8 @@ import '../data/mock_notifications.dart';
 import '../data/mock_subscriptions.dart';
 import '../data/mock_budget.dart';
 import '../data/mock_ingredients.dart';
+import '../data/mock_badges.dart';
+import '../data/mock_recalls.dart';
 import '../models/ingredient.dart';
 import '../models/address.dart';
 import '../models/app_notification.dart';
@@ -23,6 +25,8 @@ import '../models/tracking_event.dart';
 import '../models/travel_kit_item.dart';
 import '../models/budget_entry.dart';
 import '../models/shelf_product.dart';
+import '../models/badge.dart';
+import '../models/recall_alert.dart';
 
 class EngagementController {
   final ValueNotifier<List<AppNotification>> notifications =
@@ -40,6 +44,10 @@ class EngagementController {
       ValueNotifier(List.from(mockSubscriptions));
   final ValueNotifier<List<WellnessChallenge>> challenges =
       ValueNotifier(List.from(mockChallenges));
+  final ValueNotifier<List<Badge>> badges =
+      ValueNotifier(List.from(mockBadges));
+  final ValueNotifier<List<RecallAlert>> recallAlerts =
+      ValueNotifier(List.from(mockRecalls));
   final ValueNotifier<List<BudgetEntry>> budgetEntries =
       ValueNotifier(List.from(mockBudgetEntries));
   final ValueNotifier<double> monthlyBudget = ValueNotifier(140);
@@ -484,6 +492,22 @@ class EngagementController {
     if (target != null) savingsTarget.value = target;
   }
 
+  void updateBadgeProgress(String id, double progress) {
+    final clamped = progress.clamp(0.0, 1.0);
+    badges.value = badges.value
+        .map((badge) => badge.id == id
+            ? badge.copyWith(progress: clamped, achieved: badge.achieved || clamped >= 1)
+            : badge)
+        .toList();
+  }
+
+  void acknowledgeRecall(String id) {
+    recallAlerts.value = recallAlerts.value
+        .map((alert) =>
+            alert.id == id ? alert.copyWith(acknowledged: true) : alert)
+        .toList();
+  }
+
   void toggleTravelItem(String id) {
     travelKit.value = travelKit.value
         .map((item) => item.id == id
@@ -653,6 +677,8 @@ class EngagementController {
     coupons.dispose();
     subscriptions.dispose();
     challenges.dispose();
+    badges.dispose();
+    recallAlerts.dispose();
     ingredients.dispose();
     carePlan.dispose();
     skinMetrics.dispose();

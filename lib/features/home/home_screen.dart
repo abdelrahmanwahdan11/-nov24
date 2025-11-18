@@ -81,6 +81,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () => Navigator.pushNamed(context, AppRouter.rewards),
                       ),
                       _WellnessCard(
+                        title: loc.t('badges'),
+                        icon: Icons.workspace_premium_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.badges),
+                      ),
+                      _WellnessCard(
                         title: loc.t('skin_diary'),
                         icon: Icons.edit_note_outlined,
                         onTap: () => Navigator.pushNamed(context, AppRouter.diary),
@@ -109,6 +114,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         title: loc.t('patch_test'),
                         icon: Icons.health_and_safety_outlined,
                         onTap: () => Navigator.pushNamed(context, AppRouter.patchTest),
+                      ),
+                      _WellnessCard(
+                        title: loc.t('recall_center'),
+                        icon: Icons.warning_amber_rounded,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.recallCenter),
                       ),
                       _WellnessCard(
                         title: loc.t('sos_playbook'),
