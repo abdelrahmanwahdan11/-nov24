@@ -16,6 +16,7 @@ import '../models/skin_quiz_question.dart';
 import '../models/subscription_plan.dart';
 import '../models/wellness_challenge.dart';
 import '../models/wellness_plan.dart';
+import '../models/skin_metric.dart';
 
 class EngagementController {
   final ValueNotifier<List<AppNotification>> notifications =
@@ -33,6 +34,35 @@ class EngagementController {
       ValueNotifier(List.from(mockSubscriptions));
   final ValueNotifier<List<WellnessChallenge>> challenges =
       ValueNotifier(List.from(mockChallenges));
+  final ValueNotifier<List<SkinMetric>> skinMetrics = ValueNotifier([
+    SkinMetric(
+      date: DateTime.now().subtract(const Duration(days: 2)),
+      hydration: 0.68,
+      radiance: 0.62,
+      breakouts: 2,
+      note: 'Slept late—added barrier cream and extra water today.',
+    ),
+    SkinMetric(
+      date: DateTime.now().subtract(const Duration(days: 1)),
+      hydration: 0.74,
+      radiance: 0.7,
+      breakouts: 1,
+      note: 'Used calming mask and SPF reapplication.',
+    ),
+    SkinMetric(
+      date: DateTime.now(),
+      hydration: 0.8,
+      radiance: 0.78,
+      breakouts: 0,
+      note: 'Drank 2L water, added niacinamide serum.',
+    ),
+  ]);
+  final ValueNotifier<bool> morningReminderEnabled = ValueNotifier(true);
+  final ValueNotifier<bool> eveningReminderEnabled = ValueNotifier(true);
+  final ValueNotifier<TimeOfDay> morningReminderTime =
+      ValueNotifier(const TimeOfDay(hour: 7, minute: 30));
+  final ValueNotifier<TimeOfDay> eveningReminderTime =
+      ValueNotifier(const TimeOfDay(hour: 21, minute: 0));
   final ValueNotifier<List<String>> quizResult = ValueNotifier(const []);
   final ValueNotifier<List<SkinDiaryEntry>> diaryEntries = ValueNotifier([
     SkinDiaryEntry(
@@ -307,6 +337,28 @@ class EngagementController {
     diaryEntries.value = [entry, ...diaryEntries.value];
   }
 
+  void logSkinMetric(SkinMetric metric) {
+    final updated = [metric, ...skinMetrics.value]
+      ..sort((a, b) => b.date.compareTo(a.date));
+    skinMetrics.value = updated;
+  }
+
+  void toggleReminder({required bool morning, required bool enabled}) {
+    if (morning) {
+      morningReminderEnabled.value = enabled;
+    } else {
+      eveningReminderEnabled.value = enabled;
+    }
+  }
+
+  void updateReminderTime({required bool morning, required TimeOfDay time}) {
+    if (morning) {
+      morningReminderTime.value = time;
+    } else {
+      eveningReminderTime.value = time;
+    }
+  }
+
   void bookConsultation(DateTime slot) {
     nextConsultation.value = slot;
   }
@@ -367,5 +419,10 @@ class EngagementController {
     challenges.dispose();
     ingredients.dispose();
     carePlan.dispose();
+    skinMetrics.dispose();
+    morningReminderEnabled.dispose();
+    eveningReminderEnabled.dispose();
+    morningReminderTime.dispose();
+    eveningReminderTime.dispose();
   }
 }

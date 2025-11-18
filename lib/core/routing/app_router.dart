@@ -28,6 +28,8 @@ import '../../features/profile/coupon_center_screen.dart';
 import '../../features/profile/wellness_dashboard_screen.dart';
 import '../../features/profile/ingredient_library_screen.dart';
 import '../../features/profile/care_plan_screen.dart';
+import '../../features/profile/skin_health_screen.dart';
+import '../../features/profile/reminders_screen.dart';
 import '../../features/search/search_overlay.dart';
 import '../../features/catalog/bundles_screen.dart';
 import '../models/order.dart';
@@ -65,6 +67,8 @@ class AppRouter {
   static const wellnessDashboard = '/wellness-dashboard';
   static const ingredientLibrary = '/ingredient-library';
   static const carePlan = '/care-plan';
+  static const skinHealth = '/skin-health';
+  static const reminders = '/reminders';
 
   static Route<dynamic>? onGenerate(RouteSettings settings) {
     switch (settings.name) {
@@ -138,6 +142,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const IngredientLibraryScreen());
       case carePlan:
         return MaterialPageRoute(builder: (_) => const CarePlanScreen());
+      case skinHealth:
+        return MaterialPageRoute(builder: (_) => const SkinHealthScreen());
+      case reminders:
+        return MaterialPageRoute(builder: (_) => const RemindersScreen());
       default:
         return null;
     }
