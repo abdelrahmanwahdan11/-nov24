@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import '../data/mock_addresses.dart';
+import '../data/mock_challenges.dart';
+import '../data/mock_coupons.dart';
 import '../data/mock_notifications.dart';
+import '../data/mock_subscriptions.dart';
 import '../models/address.dart';
 import '../models/app_notification.dart';
+import '../models/coupon.dart';
 import '../models/routine_step.dart';
-import '../models/skin_quiz_question.dart';
 import '../models/skin_diary_entry.dart';
 import '../models/skin_goal.dart';
+import '../models/skin_quiz_question.dart';
+import '../models/subscription_plan.dart';
+import '../models/wellness_challenge.dart';
 
 class EngagementController {
   final ValueNotifier<List<AppNotification>> notifications =
@@ -14,6 +20,13 @@ class EngagementController {
   final ValueNotifier<List<Address>> addresses =
       ValueNotifier(List.from(mockAddresses));
   final ValueNotifier<int> rewardPoints = ValueNotifier(640);
+  final ValueNotifier<String> referralCode = ValueNotifier('GLOW15');
+  final ValueNotifier<List<Coupon>> coupons =
+      ValueNotifier(List.from(mockCoupons));
+  final ValueNotifier<List<SubscriptionPlan>> subscriptions =
+      ValueNotifier(List.from(mockSubscriptions));
+  final ValueNotifier<List<WellnessChallenge>> challenges =
+      ValueNotifier(List.from(mockChallenges));
   final ValueNotifier<List<String>> quizResult = ValueNotifier(const []);
   final ValueNotifier<List<SkinDiaryEntry>> diaryEntries = ValueNotifier([
     SkinDiaryEntry(
@@ -133,6 +146,52 @@ class EngagementController {
     addresses.value = [...addresses.value, address];
   }
 
+  void applyCoupon(String code) {
+    final normalized = code.trim().toUpperCase();
+    coupons.value = coupons.value
+        .map((c) => c.code.toUpperCase() == normalized
+            ? c.copyWith(isApplied: true)
+            : c)
+        .toList();
+  }
+
+  void toggleSubscriptionPause(String id) {
+    subscriptions.value = subscriptions.value.map((plan) {
+      if (plan.id != id) return plan;
+      return plan.copyWith(paused: !plan.paused);
+    }).toList();
+  }
+
+  void skipNextDelivery(String id) {
+    subscriptions.value = subscriptions.value.map((plan) {
+      if (plan.id != id) return plan;
+      return plan.copyWith(
+        nextDelivery: plan.nextDelivery.add(const Duration(days: 7)),
+      );
+    }).toList();
+  }
+
+  void changeFrequency(String id) {
+    const options = ['Every 4 weeks', 'Every 6 weeks', 'Every 8 weeks'];
+    subscriptions.value = subscriptions.value.map((plan) {
+      if (plan.id != id) return plan;
+      final currentIndex = options.indexOf(plan.frequency);
+      final nextIndex = (currentIndex + 1) % options.length;
+      return plan.copyWith(frequency: options[nextIndex]);
+    }).toList();
+  }
+
+  void toggleChallengeTask(String challengeId, int index) {
+    challenges.value = challenges.value.map((challenge) {
+      if (challenge.id != challengeId) return challenge;
+      final updatedTasks = [...challenge.tasks];
+      if (index >= 0 && index < updatedTasks.length) {
+        updatedTasks[index] = updatedTasks[index].toggle();
+      }
+      return challenge.copyWith(tasks: updatedTasks);
+    }).toList();
+  }
+
   void selectQuizAnswers(List<String> answers) {
     quizResult.value = answers;
   }
@@ -175,5 +234,9 @@ class EngagementController {
     diaryEntries.dispose();
     nextConsultation.dispose();
     goals.dispose();
+    referralCode.dispose();
+    coupons.dispose();
+    subscriptions.dispose();
+    challenges.dispose();
   }
 }

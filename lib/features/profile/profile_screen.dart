@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import '../../core/localization/app_localizations.dart';
 import '../../core/routing/app_router.dart';
 import '../../main.dart';
+import 'challenges_screen.dart';
+import 'referrals_screen.dart';
+import 'skin_report_screen.dart';
+import 'subscriptions_screen.dart';
 import 'settings_screen.dart';
 import 'order_history_screen.dart';
 import 'help_center_screen.dart';
@@ -34,6 +38,22 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 16),
+            ListTile(
+              leading: const Icon(Icons.bolt_outlined),
+              title: Text(loc.t('skin_report')),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SkinReportScreen()),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.auto_awesome_motion_outlined),
+              title: Text(loc.t('challenges')),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ChallengesScreen()),
+              ),
+            ),
             ListTile(
               leading: const Icon(Icons.card_giftcard_outlined),
               title: Text(loc.t('rewards')),
@@ -68,6 +88,22 @@ class ProfileScreen extends StatelessWidget {
               leading: const Icon(Icons.place_outlined),
               title: Text(loc.t('addresses')),
               onTap: () => Navigator.pushNamed(context, AppRouter.addresses),
+            ),
+            ListTile(
+              leading: const Icon(Icons.wallet_giftcard_outlined),
+              title: Text(loc.t('referrals')),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ReferralsScreen()),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.autorenew_outlined),
+              title: Text(loc.t('subscriptions')),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SubscriptionsScreen()),
+              ),
             ),
             ListTile(
               leading: const Icon(Icons.card_giftcard_outlined),

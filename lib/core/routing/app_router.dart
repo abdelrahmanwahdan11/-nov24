@@ -20,6 +20,10 @@ import '../../features/profile/skin_diary_screen.dart';
 import '../../features/profile/consultation_screen.dart';
 import '../../features/profile/order_tracking_screen.dart';
 import '../../features/profile/skin_goals_screen.dart';
+import '../../features/profile/challenges_screen.dart';
+import '../../features/profile/referrals_screen.dart';
+import '../../features/profile/skin_report_screen.dart';
+import '../../features/profile/subscriptions_screen.dart';
 import '../../features/search/search_overlay.dart';
 import '../../features/catalog/bundles_screen.dart';
 import '../models/order.dart';
@@ -49,6 +53,10 @@ class AppRouter {
   static const trackOrder = '/track-order';
   static const bundles = '/bundles';
   static const goals = '/goals';
+  static const challenges = '/challenges';
+  static const referrals = '/referrals';
+  static const subscriptions = '/subscriptions';
+  static const skinReport = '/skin-report';
 
   static Route<dynamic>? onGenerate(RouteSettings settings) {
     switch (settings.name) {
@@ -106,6 +114,14 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const BundlesScreen());
       case goals:
         return MaterialPageRoute(builder: (_) => const SkinGoalsScreen());
+      case challenges:
+        return MaterialPageRoute(builder: (_) => const ChallengesScreen());
+      case referrals:
+        return MaterialPageRoute(builder: (_) => const ReferralsScreen());
+      case subscriptions:
+        return MaterialPageRoute(builder: (_) => const SubscriptionsScreen());
+      case skinReport:
+        return MaterialPageRoute(builder: (_) => const SkinReportScreen());
       default:
         return null;
     }

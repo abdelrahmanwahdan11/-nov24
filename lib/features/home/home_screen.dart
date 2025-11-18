@@ -95,6 +95,26 @@ class _HomeScreenState extends State<HomeScreen> {
                         icon: Icons.menu_book_outlined,
                         onTap: () => Navigator.pushNamed(context, AppRouter.journal),
                       ),
+                      _WellnessCard(
+                        title: loc.t('referrals'),
+                        icon: Icons.wallet_giftcard_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.referrals),
+                      ),
+                      _WellnessCard(
+                        title: loc.t('subscriptions'),
+                        icon: Icons.autorenew_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.subscriptions),
+                      ),
+                      _WellnessCard(
+                        title: loc.t('skin_report'),
+                        icon: Icons.bolt_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.skinReport),
+                      ),
+                      _WellnessCard(
+                        title: loc.t('challenges'),
+                        icon: Icons.auto_awesome_motion_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.challenges),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 16),
