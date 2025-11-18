@@ -106,6 +106,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         onTap: () => Navigator.pushNamed(context, AppRouter.ingredientLibrary),
                       ),
                       _WellnessCard(
+                        title: loc.t('patch_test'),
+                        icon: Icons.health_and_safety_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.patchTest),
+                      ),
+                      _WellnessCard(
+                        title: loc.t('shelf_life'),
+                        icon: Icons.inventory_2_outlined,
+                        onTap: () => Navigator.pushNamed(context, AppRouter.shelfLife),
+                      ),
+                      _WellnessCard(
                         title: loc.t('skin_health'),
                         icon: Icons.monitor_heart_outlined,
                         onTap: () => Navigator.pushNamed(context, AppRouter.skinHealth),

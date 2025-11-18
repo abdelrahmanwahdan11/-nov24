@@ -82,6 +82,41 @@ class EngagementController {
   ]);
   final ValueNotifier<String> travelClimate =
       ValueNotifier('Dry cabin · pack humectants');
+  final ValueNotifier<List<ShelfProduct>> shelfProducts = ValueNotifier([
+    ShelfProduct(
+      id: 'shelf-cleanser',
+      name: 'Soothing Gel Cleanser',
+      category: 'Cleanser',
+      imageUrl:
+          'https://images.pexels.com/photos/3738348/pexels-photo-3738348.jpeg?auto=compress&cs=tinysrgb&w=800',
+      openedAt: DateTime.now().subtract(const Duration(days: 40)),
+      shelfLifeMonths: 12,
+      isOpen: true,
+      note: 'Use as first cleanse in the evening.',
+    ),
+    ShelfProduct(
+      id: 'shelf-serum',
+      name: 'Radiance Serum 15%',
+      category: 'Serum',
+      imageUrl:
+          'https://images.pexels.com/photos/6899773/pexels-photo-6899773.jpeg?auto=compress&cs=tinysrgb&w=800',
+      openedAt: DateTime.now().subtract(const Duration(days: 70)),
+      shelfLifeMonths: 6,
+      isOpen: true,
+      note: 'Alternate nights only.',
+    ),
+    ShelfProduct(
+      id: 'shelf-spf',
+      name: 'Daily Mineral SPF',
+      category: 'Sunscreen',
+      imageUrl:
+          'https://images.pexels.com/photos/7290166/pexels-photo-7290166.jpeg?auto=compress&cs=tinysrgb&w=800',
+      openedAt: DateTime.now().subtract(const Duration(days: 10)),
+      shelfLifeMonths: 12,
+      isOpen: true,
+      note: 'Reapply every 2 hours outdoors.',
+    ),
+  ]);
   final ValueNotifier<List<SkinMetric>> skinMetrics = ValueNotifier([
     SkinMetric(
       date: DateTime.now().subtract(const Duration(days: 2)),
@@ -435,6 +470,25 @@ class EngagementController {
     travelClimate.value = label;
   }
 
+  void toggleShelfFinished(String id) {
+    shelfProducts.value = shelfProducts.value
+        .map((item) => item.id == id
+            ? item.copyWith(isFinished: !item.isFinished, isOpen: true)
+            : item)
+        .toList();
+  }
+
+  void toggleShelfOpen(String id) {
+    shelfProducts.value = shelfProducts.value
+        .map((item) => item.id == id
+            ? item.copyWith(
+                isOpen: !item.isOpen,
+                openedAt: !item.isOpen ? DateTime.now() : item.openedAt,
+              )
+            : item)
+        .toList();
+  }
+
   void logSkinMetric(SkinMetric metric) {
     final updated = [metric, ...skinMetrics.value]
       ..sort((a, b) => b.date.compareTo(a.date));
@@ -585,5 +639,6 @@ class EngagementController {
     coachQna.dispose();
     travelKit.dispose();
     travelClimate.dispose();
+    shelfProducts.dispose();
   }
 }

@@ -35,6 +35,8 @@ import '../../features/profile/wellness_timeline_screen.dart';
 import '../../features/profile/routine_calendar_screen.dart';
 import '../../features/profile/coach_qna_screen.dart';
 import '../../features/profile/travel_mode_screen.dart';
+import '../../features/profile/patch_test_screen.dart';
+import '../../features/profile/shelf_life_screen.dart';
 import '../../features/search/search_overlay.dart';
 import '../../features/catalog/bundles_screen.dart';
 import '../models/order.dart';
@@ -79,6 +81,8 @@ class AppRouter {
   static const routineCalendar = '/routine-calendar';
   static const coachQna = '/coach-qna';
   static const travelMode = '/travel-mode';
+  static const patchTest = '/patch-test';
+  static const shelfLife = '/shelf-life';
 
   static Route<dynamic>? onGenerate(RouteSettings settings) {
     switch (settings.name) {
@@ -166,6 +170,10 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const CoachQnaScreen());
       case travelMode:
         return MaterialPageRoute(builder: (_) => const TravelModeScreen());
+      case patchTest:
+        return MaterialPageRoute(builder: (_) => const PatchTestScreen());
+      case shelfLife:
+        return MaterialPageRoute(builder: (_) => const ShelfLifeScreen());
       default:
         return null;
     }
